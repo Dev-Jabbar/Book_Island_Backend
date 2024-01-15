@@ -9,11 +9,6 @@ const OrderRepository = () => {
     cartItems: CartEntity[]
   ): Promise<OrderEntity[]> => {
     try {
-      // Delete existing orders for the customer
-      const deleteQuery = "DELETE FROM orders WHERE customer_id = $1";
-      const deleteValues = [customerId];
-      await client.query(deleteQuery, deleteValues);
-
       // Create new orders
       const orderPromises = cartItems.map(async (cartItem) => {
         const { book_id: bookId } = cartItem;
@@ -122,17 +117,13 @@ const OrderRepository = () => {
     }
   };
 
-  const deleteOrder = async (
-    customerId: number,
-    orderId: number
-  ): Promise<void> => {
-    const query = "DELETE FROM orders WHERE customer_id = $1 AND order_id = $2";
-    const values = [customerId, orderId];
+  const deleteAllOrders = async (): Promise<void> => {
+    const query = "DELETE FROM orders";
 
     try {
-      await client.query(query, values);
+      await client.query(query);
     } catch (error) {
-      console.error("Error deleting order:", error);
+      console.error("Error deleting all orders:", error);
       throw new Error("Internal Server Error");
     }
   };
@@ -141,7 +132,7 @@ const OrderRepository = () => {
     createOrderFromCart,
     getOrderDetails,
     getAllOrderDetailsForCustomer,
-    deleteOrder,
+    deleteAllOrders,
   };
 };
 

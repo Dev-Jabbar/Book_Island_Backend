@@ -45,12 +45,10 @@ const OrderController = () => {
     }
   };
 
-  const deleteOrder = async (req: Request, res: Response) => {
-    const { customerId, orderId } = req.params;
-
+  const deleteAllOrders = async (req: Request, res: Response) => {
     try {
-      await orderService.deleteOrder(Number(customerId), Number(orderId));
-      res.json({ message: "Order deleted successfully" });
+      await orderService.deleteAllOrders();
+      res.json({ message: "All orders deleted successfully" });
     } catch (error: any) {
       res.status(500).json({ error: error.message });
     }
@@ -60,7 +58,7 @@ const OrderController = () => {
     createOrderFromCart,
     getOrderDetails,
     getAllOrderDetailsForCustomer,
-    deleteOrder,
+    deleteAllOrders,
   };
 };
 

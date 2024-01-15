@@ -20,9 +20,6 @@ orderRouter.get(
 );
 
 // Delete a specific order
-orderRouter.delete(
-  "/api/order/:customerId/:orderId/delete",
-  orderController.deleteOrder
-);
+orderRouter.delete("/api/order/deleteAll", orderController.deleteAllOrders);
 
 export default orderRouter;
