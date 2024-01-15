@@ -1,21 +1,28 @@
-// services/bookService.ts
 
-import { Client } from 'pg';
+import { BookRepository } from '../repositories/bookRepository'; 
+import { BookEntity } from '../entities/bookEntity';
 
-export class BookService {
-  private client: Client;
+const BookService = () => {
+  const bookRepository = BookRepository();
 
-  constructor(client: Client) {
-    this.client = client;
-  }
+  const getAllBooks = async (): Promise<BookEntity[]> => {
+    return bookRepository.getAllBooks();
+  };
 
-  async getAllBooks() {
-    const result = await this.client.query('SELECT * FROM books');
-    return result.rows;
-  }
+  const getBookById = async (bookId: number): Promise<BookEntity | undefined> => {
+    return bookRepository.getBookById(bookId);
+  };
 
-  async getBookById(bookId: number) {
-    const result = await this.client.query('SELECT * FROM books WHERE id = $1', [bookId]);
-    return result.rows[0];
-  }
-}
+  const createBook = async (bookData: BookEntity): Promise<BookEntity | undefined> => {
+    const createdBook = await bookRepository.createBook(bookData);
+    return createdBook;
+  };
+
+  return {
+    getAllBooks,
+    getBookById,
+    createBook,
+  };
+};
+
+export default BookService;
