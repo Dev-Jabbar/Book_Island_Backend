@@ -1,6 +1,7 @@
 {
   "name": "backend-assignment",
   "version": "1.0.0",
+  "type": "module",
   "main": "server.ts",
   "license": "MIT",
   "scripts": {
